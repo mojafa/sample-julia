@@ -2,17 +2,20 @@
     "name": "Julia Development",
     "build": {
         "dockerfile": "Dockerfile",
-        "context": "."
+        "context": ".."
     },
     "customizations": {
         "vscode": {
             "extensions": [
                 "julialang.language-julia"
-            ]
+            ],
+            "settings": {
+                "[julia]": {
+                    "editor.defaultFormatter": "julialang.language-julia",
+                    "editor.formatOnSave": true
+                },
+                "julia.execution.resultType": "inline"
+            }
         }
-    },
-    "settings": {
-        "julia.executionEnvironment": "terminal"
     }
 }
-

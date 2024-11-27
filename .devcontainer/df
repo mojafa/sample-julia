@@ -1,3 +1,4 @@
+
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 
 # Install system dependencies
@@ -8,22 +9,23 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Switch to 'vscode' user for Julia installation
-USER vscode
-
-# Set JULIAUP_HOME for 'vscode' user
-ENV JULIAUP_HOME="/home/vscode/.juliaup"
-ENV PATH="${JULIAUP_HOME}/bin:${PATH}"
-
-# Install juliaup as 'vscode'
+# Install juliaup
 RUN curl -fsSL https://install.julialang.org | sh -s -- --yes
 
-# Install specific Julia version and set as default
+# Add juliaup to PATH
+ENV PATH="/root/.juliaup/bin:${PATH}"
+
+# Install specific Julia version using juliaup and set as default
 RUN juliaup add 1.10 && \
     juliaup default 1.10
 
-# Install Julia packages globally
+    # Symlink Julia to /usr/local/bin to make it globally accessible
+RUN ln -s /root/.juliaup/bin/julia /usr/local/bin/julia
+
+# Install Julia packages globally and verify Julia installation
 RUN julia --startup-file=no -e 'using Pkg; \
     Pkg.add(["PkgTemplates", "JuliaFormatter"]); \
     Pkg.precompile()' && \
     julia --version
+
+    
