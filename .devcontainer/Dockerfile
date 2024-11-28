@@ -1,6 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
@@ -22,8 +21,6 @@ RUN curl -fsSL https://install.julialang.org | sh -s -- --yes
 RUN juliaup add 1.10 && \
     juliaup default 1.10
 
-# Install Julia packages globally
-RUN julia --startup-file=no -e 'using Pkg; \
-    Pkg.add(["PkgTemplates", "JuliaFormatter"]); \
-    Pkg.precompile()' && \
-    julia --version
+# Verify installation
+RUN julia --version
+

@@ -17,5 +17,7 @@
                 "julia.execution.resultType": "inline"
             }
         }
-    }
+    },
+    "postCreateCommand": "julia --startup-file=no -e 'using Pkg; Pkg.add([\"PkgTemplates\", \"JuliaFormatter\"]); Pkg.precompile()'"
 }
+
